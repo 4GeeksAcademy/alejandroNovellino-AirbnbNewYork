@@ -2,6 +2,10 @@ import os
 import pandas as pd
 
 
+class DataLoadingError(Exception):
+    """Custom exception raised when data loading fails."""
+
+
 def load_data(file_path: str, url: str) -> pd.DataFrame:
     """
     Loads data from a file if it exists, otherwise from a URL.
@@ -15,25 +19,53 @@ def load_data(file_path: str, url: str) -> pd.DataFrame:
 
     Raise:
         Exception: if no data could be loaded
+
+    Examples:
+        Data not saved before in local .csv file:
+
+        >>> from utils import load_data
+        >>> file_path = '../data/raw/AB_NYC_2019.csv'
+        >>> url = 'https://raw.githubusercontent.com/4GeeksAcademy/data-preprocessing-project-tutorial/main/AB_NYC_2019.csv'
+        >>> df = load_data(file_path=file_path, url=url)
+
+        File not found. Loading data from URL: https://raw.githubusercontent.com/4GeeksAcademy/data-preprocessing-project-tutorial/main/AB_NYC_2019.csv
+        Data saved to file: ../data/raw/AB_NYC_2019.csv
+
+        Data have been saved before in local .csv file:
+
+        >>> from utils import load_data
+        >>> file_path = '../data/raw/AB_NYC_2019.csv'
+        >>> url = 'https://raw.githubusercontent.com/4GeeksAcademy/data-preprocessing-project-tutorial/main/AB_NYC_2019.csv'
+        >>> df = load_data(file_path=file_path, url=url)
+
+        Loading data from file: ../data/raw/AB_NYC_2019.csv
     """
 
+    # verify if the file exists
     if os.path.exists(file_path):
+
         print(f"Loading data from file: {file_path}")
+
+        # load the data form the file
         df = pd.read_csv(file_path)
 
+        # return the loaded dataframe form local file
         return df
+
     else:
+
         print(f"File not found. Loading data from URL: {url}")
 
         try:
-
+            # file not found so try to get the data from the URL
             df = pd.read_csv(url)
+
             # save the DataFrame to the file for future use
             df.to_csv(file_path)
             print(f"Data saved to file: {file_path}")
 
         except Exception as e:
             print(f"Error loading data from URL: {e}")
-            raise Exception("Not data could be loaded.") from e
+            raise DataLoadingError() from e
 
     return df
