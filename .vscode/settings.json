@@ -3,5 +3,17 @@
 	"workbench.editorAssociations": {
 		"*.md": "vscode.markdown.preview.editor"
 	},
-	"cSpell.words": ["neighbourhood", "ylim"]
+	"cSpell.words": [
+		"annot",
+		"cbar",
+		"cmap",
+		"dataframe",
+		"neighbourhood",
+		"offdiag",
+		"pairplot",
+		"Scatterplots",
+		"triu",
+		"vmax",
+		"ylim"
+	]
 }
