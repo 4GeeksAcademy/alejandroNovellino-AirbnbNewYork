@@ -61,7 +61,7 @@ def load_data(file_path: str, url: str) -> pd.DataFrame:
             df = pd.read_csv(url)
 
             # save the DataFrame to the file for future use
-            df.to_csv(file_path)
+            df.to_csv(file_path, index=False)
             print(f"Data saved to file: {file_path}")
 
         except Exception as e:
